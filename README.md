@@ -31,28 +31,17 @@ twstock 台灣股市股票價格擷取
 
 ## Install
 
-By PyPi
+Colab
 
 ```
-$ python -m pip install --user twstock
+!git clone https://github.com/Crafter3149/twstock.git
+%cd twstock
+!pip install flit flit-core
+import os
+os.environ['FLIT_ROOT_INSTALL'] = '1'
+!flit install
 ```
 
-By Source
-
-```
-$ git clone https://github.com/Crafter3149/twstock.git
-$ cd twstock
-$ pipenv install
-```
-
-By Source & install
-
-```
-$ git clone https://github.com/Crafter3149/twstock.git
-$ cd twstock
-$ python -m pip install --user flit
-$ flit install
-```
 
 ## CLI Tools
 
