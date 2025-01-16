@@ -104,14 +104,14 @@ class TWSEFetcher(BaseFetcher):
 
 class TPEXFetcher(BaseFetcher):
     REPORT_URL = urllib.parse.urljoin(
-        TPEX_BASE_URL, "web/stock/aftertrading/daily_trading_info/st43_result.php"
+        TPEX_BASE_URL, "www/zh-tw/afterTrading/tradingStock"
     )
 
     def __init__(self):
         pass
 
     def fetch(self, year: int, month: int, sid: str, retry: int = 5):
-        params = {"d": "%d/%d" % (year - 1911, month), "stkno": sid}
+        params = {"date": "%d/%02d/01" % (year,month), "code": sid}
         for retry_i in range(retry):
             r = requests.get(self.REPORT_URL, params=params, proxies=get_proxies())
             try:
@@ -122,10 +122,10 @@ class TPEXFetcher(BaseFetcher):
                 break
         else:
             # Fail in all retries
-            data = {"aaData": []}
+            data = {"tables": [{"data":[]}]}
 
         data["data"] = []
-        if data["aaData"]:
+        if data["tables"][0]["data"]:
             data["data"] = self.purify(data)
         return data
 
@@ -135,7 +135,7 @@ class TPEXFetcher(BaseFetcher):
 
     def _make_datatuple(self, data):
         data[0] = datetime.datetime.strptime(
-            self._convert_date(data[0].replace("＊", "")), "%Y/%m/%d"
+            self._convert_date(data[0].replace("*", "")), "%Y/%m/%d"
         )
         data[1] = int(data[1].replace(",", "")) * 1000
         data[2] = int(data[2].replace(",", "")) * 1000
@@ -148,7 +148,7 @@ class TPEXFetcher(BaseFetcher):
         return DATATUPLE(*data)
 
     def purify(self, original_data):
-        return [self._make_datatuple(d) for d in original_data["aaData"]]
+        return [self._make_datatuple(d) for d in original_data["tables"][0]["data"]]
 
 
 class Stock(analytics.Analytics):
