@@ -40,7 +40,7 @@ $ python -m pip install --user twstock
 By Source
 
 ```
-$ git clone https://github.com/mlouielu/twstock
+$ git clone https://github.com/Crafter3149/twstock.git
 $ cd twstock
 $ pipenv install
 ```
@@ -48,7 +48,7 @@ $ pipenv install
 By Source & install
 
 ```
-$ git clone https://github.com/mlouielu/twstock
+$ git clone https://github.com/Crafter3149/twstock.git
 $ cd twstock
 $ python -m pip install --user flit
 $ flit install
